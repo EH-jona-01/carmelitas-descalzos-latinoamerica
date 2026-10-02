@@ -10,7 +10,7 @@ Prototipo interactivo de una app para la familia carmelita en los 19 países de 
 
 ## Probar
 
-Cuenta de prueba: `demo@carmelo.app` · contraseña `demo123`. Código de verificación: `123456`.
+Cuenta de prueba: `demo@carmelitas.app` · contraseña `demo123`. Código de verificación: `123456`.
 
 Todo funciona sin servidor; el estado se guarda en el navegador. "Reiniciar demo" (al pie de la presentación) vuelve todo a cero.
 

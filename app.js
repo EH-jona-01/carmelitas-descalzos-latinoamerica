@@ -1,7 +1,7 @@
 // Demo interactiva: app móvil + panel de administración, sin backend.
 // El estado vive en localStorage para que la demo recuerde lo que hace cada visitante.
 
-const STORE_KEY = 'carmelo-demo-v1';
+const STORE_KEY = 'carmelitas-demo-v1';
 const DEMO_OTP = '123456';
 
 // ---------- Estado ----------
@@ -16,7 +16,7 @@ function seedState() {
   };
   return {
     users: [
-      { id: 'demo', name: 'Ana Morales', email: 'demo@carmelo.app', phone: '5512345678', password: 'demo123', country: 'MX', community: 'MX-0', status: 'fiel', provider: 'email', createdAt: now.toISOString() },
+      { id: 'demo', name: 'Ana Morales', email: 'demo@carmelitas.app', phone: '5512345678', password: 'demo123', country: 'MX', community: 'MX-0', status: 'fiel', provider: 'email', createdAt: now.toISOString() },
     ],
     session: null,
     events: [
@@ -220,7 +220,7 @@ function viewLogin() {
       <button class="back" data-action="go" data-to="welcome">← Volver</button>
       <h2 class="screen-title">Bienvenido de nuevo</h2>
       <p class="screen-sub">Entrá con tu email o tu teléfono.</p>
-      <div class="hint">Cuenta de prueba: <b>demo@carmelo.app</b> · contraseña <b>demo123</b></div>
+      <div class="hint">Cuenta de prueba: <b>demo@carmelitas.app</b> · contraseña <b>demo123</b></div>
       <form data-form="login" novalidate>
         <div class="field"><label for="l-id">Email o teléfono</label><input class="input" id="l-id" name="id" value="${esc(ui.draft.loginId)}" autocomplete="username"></div>
         <div class="field"><label for="l-pass">Contraseña</label><input class="input" id="l-pass" name="password" type="password" autocomplete="current-password">${err('login')}</div>
@@ -665,7 +665,7 @@ function exportData() {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'mis-datos-carmelo.json';
+  a.download = 'mis-datos-carmelitas.json';
   a.click();
   URL.revokeObjectURL(a.href);
   toast('Descargamos un archivo con tus datos.');
