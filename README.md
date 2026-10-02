@@ -1,4 +1,4 @@
-# Carmelo Latinoamérica · Demo
+# Carmelitas Descalzos Latinoamérica · Demo
 
 Prototipo interactivo de una app para la familia carmelita en los 19 países de habla hispana de Latinoamérica. Es una demostración no oficial y usa datos de ejemplo.
 

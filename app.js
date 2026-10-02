@@ -127,7 +127,7 @@ function toast(text) {
 let pushTimer;
 function push(title, body) {
   const el = $('#push');
-  el.innerHTML = `<img src="assets/icon.svg" alt=""><div><small>Carmelo · ahora</small><strong>${esc(title)}</strong><p>${esc(body)}</p></div>`;
+  el.innerHTML = `<img src="assets/icon.svg" alt=""><div><small>Carmelitas Descalzos · ahora</small><strong>${esc(title)}</strong><p>${esc(body)}</p></div>`;
   el.hidden = false;
   clearTimeout(pushTimer);
   pushTimer = setTimeout(() => { el.hidden = true; }, 5000);
@@ -531,7 +531,7 @@ function submitRegister(form) {
   if (Object.keys(e).length) return renderApp();
   ui.screen = 'otp';
   renderApp();
-  setTimeout(() => push('Código de verificación', `Tu código de Carmelo es ${DEMO_OTP}.`), 600);
+  setTimeout(() => push('Código de verificación', `Tu código de Carmelitas Descalzos es ${DEMO_OTP}.`), 600);
 }
 
 function submitOtp(form) {
@@ -840,7 +840,7 @@ function renderCta() {
   $('#cta-name').textContent = CONTACT.name || 'Desarrollo de la app completa para iOS, Android y web.';
   const actions = [];
   if (CONTACT.whatsapp) actions.push(`<a href="https://wa.me/${encodeURIComponent(CONTACT.whatsapp)}?text=${encodeURIComponent('Hola, vi la demo de la app y quiero conversar.')}" target="_blank" rel="noopener">WhatsApp</a>`);
-  if (CONTACT.email) actions.push(`<a class="ghost" href="mailto:${encodeURIComponent(CONTACT.email)}?subject=${encodeURIComponent('Demo app Carmelo Latinoamérica')}">Email</a>`);
+  if (CONTACT.email) actions.push(`<a class="ghost" href="mailto:${encodeURIComponent(CONTACT.email)}?subject=${encodeURIComponent('Demo app Carmelitas Descalzos Latinoamérica')}">Email</a>`);
   actions.push('<a class="ghost" href="formulario.html">Completar el cuestionario</a>');
   $('#cta-actions').innerHTML = actions.join('');
 }
@@ -867,7 +867,7 @@ document.addEventListener('click', e => {
   switch (a) {
     case 'go': ui.screen = btn.dataset.to; ui.errors = {}; renderApp(); break;
     case 'social': socialLogin(btn.dataset.provider); break;
-    case 'resend': push('Código de verificación', `Tu código de Carmelo es ${DEMO_OTP}.`); break;
+    case 'resend': push('Código de verificación', `Tu código de Carmelitas Descalzos es ${DEMO_OTP}.`); break;
     case 'toast': toast(btn.dataset.text); break;
     case 'tab': ui.tab = btn.dataset.tab; ui.overlay = null; renderApp(); break;
     case 'pick-community': ui.draft.pickCommunity = btn.dataset.id; renderApp(); break;
