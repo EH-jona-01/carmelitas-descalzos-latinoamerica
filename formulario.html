@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cuestionario · App Carmelo Latinoamérica</title>
+  <meta name="description" content="Cuestionario para definir la app de la familia carmelita en Latinoamérica.">
+  <meta name="theme-color" content="#4a2f22">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brown-900: #2e1d15; --brown-800: #4a2f22; --brown-600: #6e4a36;
+      --cream-50: #fbf7f0; --cream-100: #f4ead9; --cream-200: #e9dcc5;
+      --gold: #b8893b; --gold-soft: #f3e6c8;
+      --ink: #2a211c; --ink-2: #5d5049; --ink-3: #7d7068;
+      --line: #e3d7c6; --page: #f6f0e6; --bad: #a3392f; --good: #2f7a4b;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { font-family: var(--sans); background: var(--page); color: var(--ink); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    [hidden] { display: none !important; }
+
+    header { background: var(--brown-800); color: var(--cream-100); padding: 28px 16px 24px; }
+    .wrap { max-width: 720px; margin: 0 auto; }
+    .brand { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--cream-200); margin-bottom: 14px; }
+    .brand img { width: 28px; height: 28px; border-radius: 7px; }
+    header h1 { font-family: var(--serif); font-weight: 600; font-size: 36px; line-height: 1.1; margin: 0 0 8px; color: #fff; }
+    header p { margin: 0; color: var(--cream-200); }
+
+    .progress-wrap { position: sticky; top: 0; z-index: 5; background: var(--cream-50); border-bottom: 1px solid var(--line); padding: 12px 16px; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 14px; color: var(--ink-2); margin-bottom: 6px; }
+    .progress { height: 8px; background: var(--cream-200); border-radius: 8px; overflow: hidden; }
+    .progress i { display: block; height: 100%; background: var(--gold); width: 0; transition: width .3s; }
+
+    main { padding: 24px 16px 64px; }
+    .intro { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+    .intro h2 { font-family: var(--serif); font-size: 28px; margin: 0 0 8px; color: var(--brown-900); }
+    .intro ul { padding-left: 20px; margin: 8px 0 0; }
+    .intro li { margin-bottom: 4px; }
+
+    .section-title { font-family: var(--serif); font-size: 32px; line-height: 1.15; margin: 0 0 6px; color: var(--brown-900); }
+    .section-sub { margin: 0 0 22px; color: var(--ink-2); }
+
+    .q { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px 18px 20px; margin-bottom: 14px; }
+    .q > label, .q legend { display: block; font-weight: 600; font-size: 18px; margin-bottom: 4px; padding: 0; }
+    .q fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+    .help { font-size: 15px; color: var(--ink-3); margin: 0 0 12px; }
+    .req { color: var(--bad); font-weight: 600; }
+    .opt { font-weight: 400; color: var(--ink-3); font-size: 14px; }
+
+    .input { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--cream-50); font-size: 17px; }
+    textarea.input { min-height: 110px; resize: vertical; }
+    .input:focus { outline: 3px solid var(--gold-soft); border-color: var(--gold); background: #fff; }
+
+    .choices { display: grid; gap: 8px; }
+    .choices.cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .choice { display: flex; align-items: flex-start; gap: 12px; padding: 14px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--cream-50); cursor: pointer; }
+    .choice:hover { border-color: var(--brown-600); }
+    .choice input { width: 22px; height: 22px; margin: 1px 0 0; flex: none; accent-color: var(--brown-800); }
+    .choice span small { display: block; color: var(--ink-3); font-size: 14px; margin-top: 2px; }
+    .choice:has(input:checked) { border-color: var(--brown-800); background: var(--gold-soft); }
+    .other { margin-top: 8px; }
+
+    .error { color: var(--bad); font-size: 15px; margin-top: 8px; font-weight: 500; }
+    .q.invalid { border-color: var(--bad); }
+
+    .nav { display: flex; gap: 10px; justify-content: space-between; margin-top: 22px; }
+    .btn { border: 0; border-radius: 14px; padding: 16px 24px; font-weight: 600; font-size: 17px; cursor: pointer; }
+    .btn-primary { background: var(--brown-800); color: #fff; flex: 1; }
+    .btn-gold { background: var(--gold); color: #fff; flex: 1; }
+    .btn-light { background: #fff; border: 1px solid var(--line); }
+    .btn:disabled { opacity: .6; cursor: default; }
+    .saved { text-align: center; font-size: 14px; color: var(--ink-3); margin-top: 12px; }
+
+    .review { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 4px 18px; margin-bottom: 14px; }
+    .review h3 { font-size: 17px; margin: 16px 0 6px; color: var(--brown-800); display: flex; justify-content: space-between; align-items: center; }
+    .review h3 button { background: none; border: 0; color: var(--brown-600); text-decoration: underline; font-size: 15px; cursor: pointer; }
+    .review dl { margin: 0 0 12px; }
+    .review dt { font-size: 14px; color: var(--ink-3); margin-top: 8px; }
+    .review dd { margin: 0; white-space: pre-wrap; }
+    .review dd.empty { color: var(--ink-3); font-style: italic; }
+
+    .done { text-align: center; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 40px 20px; }
+    .done .ok { width: 72px; height: 72px; border-radius: 50%; background: #e3f1e7; color: var(--good); display: grid; place-items: center; font-size: 34px; margin: 0 auto 16px; }
+    .done h2 { font-family: var(--serif); font-size: 32px; margin: 0 0 8px; }
+    .fallback { background: var(--gold-soft); border-radius: 12px; padding: 14px; margin-top: 14px; font-size: 15px; text-align: left; }
+    .fallback a { color: var(--brown-800); font-weight: 600; }
+
+    footer { text-align: center; font-size: 13px; color: var(--ink-3); padding: 0 16px 32px; }
+
+    @media (max-width: 560px) {
+      header h1 { font-size: 30px; }
+      .section-title { font-size: 27px; }
+      .choices.cols { grid-template-columns: minmax(0, 1fr); }
+      .nav { flex-direction: column-reverse; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand"><img src="assets/icon.svg" alt=""> Carmelo Latinoamérica</div>
+      <h1>Cuestionario para diseñar la app</h1>
+      <p>Sus respuestas nos ayudan a construir una app a la medida de la familia carmelita en Latinoamérica.</p>
+    </div>
+  </header>
+
+  <div class="progress-wrap" id="progress-wrap" hidden>
+    <div class="wrap">
+      <div class="progress-label"><span id="progress-step"></span><span id="progress-pct"></span></div>
+      <div class="progress"><i id="progress-bar"></i></div>
+    </div>
+  </div>
+
+  <main>
+    <div class="wrap" id="app"></div>
+  </main>
+
+  <footer>Sus respuestas se envían de forma privada solo al desarrollador del proyecto. <a href="index.html">Ver la demo de la app</a></footer>
+
+  <script src="config.js"></script>
+  <script>
+    // Cada sección es una pantalla. Tipos: text, email, tel, textarea, radio, checkbox, select.
+    const SECTIONS = [
+      {
+        title: 'Sus datos',
+        sub: 'Para saber con quién hablamos y cómo contactarlo.',
+        questions: [
+          { id: 'nombre', label: 'Nombre completo', type: 'text', required: true },
+          { id: 'cargo', label: '¿Cuál es su servicio o cargo?', help: 'Por ejemplo: sacerdote, prior, provincial, responsable de comunicación.', type: 'text' },
+          { id: 'comunidad', label: '¿A qué provincia o comunidad pertenece?', type: 'text' },
+          { id: 'pais', label: '¿En qué país vive?', type: 'text' },
+          { id: 'email', label: 'Correo electrónico', type: 'email', help: 'Escriba al menos el correo o el WhatsApp.' },
+          { id: 'whatsapp', label: 'Número de WhatsApp', type: 'tel', help: 'Con el código del país, por ejemplo +52 55 1234 5678.' },
+          { id: 'contacto', label: '¿Cómo prefiere que nos comuniquemos?', type: 'radio', options: ['WhatsApp', 'Llamada telefónica', 'Correo electrónico', 'Videollamada'] },
+          { id: 'horario', label: '¿Qué días y horarios le quedan mejor?', type: 'text', help: 'Por ejemplo: martes y jueves por la tarde.' },
+        ],
+      },
+      {
+        title: 'La app que ya existe',
+        sub: 'En España ya hay una app de los Carmelitas Descalzos. Queremos saber cómo se relaciona con este proyecto.',
+        questions: [
+          { id: 'conoce_app', label: '¿Conoce la app que usan hoy en España?', type: 'radio', options: ['Sí, la uso', 'Sí, la conozco pero no la uso', 'No la conozco'] },
+          { id: 'que_gusta', label: '¿Qué le gusta de esa app y qué le falta?', type: 'textarea', help: 'Puede ser cualquier detalle: lo que más se usa, lo que no funciona, lo que le gustaría tener.' },
+          { id: 'contacto_espana', label: '¿Tienen contacto con quienes manejan la app de España?', type: 'radio', options: ['Sí, y están de acuerdo en colaborar', 'Sí, pero todavía no lo hemos hablado', 'No tenemos contacto', 'No lo sé'] },
+          { id: 'opcion', label: '¿Qué prefieren?', type: 'radio', options: [
+            { value: 'Ampliar la app de España', hint: 'La misma app, ahora también para Latinoamérica.' },
+            { value: 'Una app nueva para Latinoamérica', hint: 'Una app propia, independiente de la de España.' },
+            { value: 'No lo sé, prefiero que me aconsejen', hint: '' },
+          ] },
+        ],
+      },
+      {
+        title: '¿Para quién es la app?',
+        sub: 'Pensemos en las personas que la van a usar.',
+        questions: [
+          { id: 'usuarios', label: '¿Quiénes la van a usar?', help: 'Puede marcar varias opciones.', type: 'checkbox', cols: true, options: ['Fieles de nuestras parroquias', 'Frailes', 'Monjas de clausura', 'Orden Seglar (OCDS)', 'Jóvenes', 'Familias', 'Benefactores y donantes', 'Personas interesadas en la vocación'], other: true },
+          { id: 'paises', label: '¿En qué países quieren empezar?', help: 'Puede marcar varios.', type: 'checkbox', cols: true, options: ['Todos los países de habla hispana', 'México', 'Guatemala', 'El Salvador', 'Honduras', 'Nicaragua', 'Costa Rica', 'Panamá', 'Cuba', 'República Dominicana', 'Puerto Rico', 'Colombia', 'Venezuela', 'Ecuador', 'Perú', 'Bolivia', 'Chile', 'Argentina', 'Uruguay', 'Paraguay'] },
+          { id: 'cantidad', label: '¿Cuántas personas cree que la usarían el primer año?', type: 'radio', options: ['Menos de 500', 'Entre 500 y 2.000', 'Entre 2.000 y 10.000', 'Más de 10.000', 'No lo sé'] },
+          { id: 'edades', label: '¿Qué edades tienen la mayoría?', type: 'checkbox', options: ['Jóvenes (menos de 30)', 'Adultos (30 a 60)', 'Mayores (más de 60)'] },
+          { id: 'celular', label: '¿Qué tan cómodas se sienten esas personas con el celular?', type: 'radio', options: ['Lo usan con facilidad', 'Lo usan para lo básico (WhatsApp, Facebook)', 'Les cuesta bastante'] },
+        ],
+      },
+      {
+        title: 'Cómo se organizan',
+        sub: 'La app va a reflejar la organización de la Orden: quién publica y quién cuida cada comunidad.',
+        questions: [
+          { id: 'n_comunidades', label: '¿Cuántas provincias, conventos, parroquias o grupos participarían?', type: 'textarea', help: 'Un número aproximado está bien. Si tiene una lista, puede mencionarla y la pedimos después.' },
+          { id: 'quien_publica', label: '¿Quién publicaría los avisos y eventos de cada comunidad?', type: 'radio', options: ['El sacerdote o responsable de cada comunidad', 'Una persona encargada por provincia', 'Una sola persona para todo', 'Todavía no lo sabemos'] },
+          { id: 'aprobacion', label: '¿Alguien debe aprobar a las personas que dicen pertenecer a un grupo, por ejemplo a la Orden Seglar?', type: 'radio', options: ['Sí, el responsable del grupo', 'No hace falta', 'No lo sé'] },
+          { id: 'lista_miembros', label: '¿Ya tienen una lista de miembros o fieles?', help: 'Por ejemplo, en Excel o en un cuaderno.', type: 'radio', options: ['Sí, en Excel o computadora', 'Sí, en papel', 'No'] },
+        ],
+      },
+      {
+        title: 'Lo que debe hacer la app',
+        sub: 'Marque lo que le gustaría tener. Después le pediremos lo más importante.',
+        questions: [
+          { id: 'funciones', label: '¿Qué le gustaría que tenga la app?', help: 'Puede marcar todas las que quiera.', type: 'checkbox', options: [
+            { value: 'Evangelio del día con meditación', hint: 'Para rezar cada mañana.' },
+            { value: 'Audios o videos', hint: 'Homilías, meditaciones, charlas.' },
+            { value: 'Santos y fiestas carmelitas', hint: 'Recordatorio de cada celebración.' },
+            { value: 'Horarios de misa y confesión', hint: 'De cada comunidad.' },
+            { value: 'Mapa de comunidades cercanas', hint: 'Conventos, parroquias, monasterios.' },
+            { value: 'Eventos y retiros con inscripción', hint: 'Con cupos y recordatorios.' },
+            { value: 'Avisos al celular', hint: 'Notificaciones de la comunidad o la provincia.' },
+            { value: 'Pedir oraciones', hint: 'Intenciones que la comunidad reza.' },
+            { value: 'Donativos', hint: 'Ofrendas desde el celular.' },
+            { value: 'Formación para la Orden Seglar', hint: 'Material y temas de estudio.' },
+            { value: 'Pastoral vocacional', hint: 'Contacto para quien siente el llamado.' },
+            { value: 'Misas en vivo', hint: 'Enlaces a transmisiones.' },
+            { value: 'Textos de Santa Teresa y San Juan de la Cruz', hint: 'Biblioteca de lectura.' },
+            { value: 'Libros y artículos religiosos', hint: 'Tienda en línea.' },
+          ], other: true },
+          { id: 'top3', label: 'Si tuviera que elegir solo 3, ¿cuáles serían las más importantes?', type: 'textarea', required: true, help: 'Esto nos ayuda a saber qué hacer primero.' },
+          { id: 'objetivo', label: 'En una o dos frases: ¿qué le gustaría lograr con esta app?', type: 'textarea', help: 'Por ejemplo: que los fieles recen cada día con nosotros, o que los jóvenes conozcan el Carmelo.' },
+        ],
+      },
+      {
+        title: 'Registro de las personas',
+        sub: 'Cómo entran las personas a la app.',
+        questions: [
+          { id: 'registro', label: '¿Las personas deben crear una cuenta para usar la app?', type: 'radio', options: [
+            { value: 'Sí, para todo', hint: 'Así sabemos quién usa la app.' },
+            { value: 'Solo para algunas cosas', hint: 'Por ejemplo, inscribirse a eventos o donar. Rezar sería libre.' },
+            { value: 'No lo sé, prefiero que me aconsejen', hint: '' },
+          ] },
+          { id: 'datos_pedir', label: '¿Qué datos le gustaría pedir a cada persona?', type: 'checkbox', cols: true, options: ['Nombre', 'Teléfono', 'Correo', 'País y ciudad', 'Comunidad a la que asiste', 'Fecha de nacimiento', 'Si pertenece a algún grupo'], other: true },
+        ],
+      },
+      {
+        title: 'Contenido',
+        sub: 'Lo que la app va a mostrar cada día.',
+        questions: [
+          { id: 'quien_escribe', label: '¿Quién preparará las meditaciones, avisos y demás textos?', type: 'textarea', help: 'Puede ser una persona, un equipo o cada comunidad.' },
+          { id: 'contenido_existente', label: '¿Ya tienen material que podamos usar?', type: 'checkbox', options: ['Textos y meditaciones', 'Audios', 'Videos (por ejemplo en YouTube)', 'Fotos de las comunidades', 'Página web o redes sociales', 'Todavía no'], other: true },
+          { id: 'enlaces', label: 'Si tienen página web, redes sociales o canal de YouTube, compártanos los enlaces', type: 'textarea', help: 'Opcional.' },
+          { id: 'frecuencia', label: '¿Cada cuánto publicarían contenido nuevo?', type: 'radio', options: ['Todos los días', 'Algunas veces por semana', 'Una vez por semana', 'No lo sé'] },
+        ],
+      },
+      {
+        title: 'Donativos',
+        sub: 'Solo si desean recibir ofrendas desde la app.',
+        questions: [
+          { id: 'quiere_donativos', label: '¿Quieren recibir donativos por la app?', type: 'radio', options: ['Sí', 'No', 'Más adelante'] },
+          { id: 'destino_donativos', label: '¿A dónde deberían llegar los donativos?', type: 'radio', options: ['A cada comunidad', 'A cada provincia', 'A una sola cuenta central', 'No lo sé'] },
+          { id: 'cuentas', label: '¿Cuentan con cuenta bancaria o Mercado Pago en los países donde empezaría?', type: 'radio', options: ['Sí', 'En algunos países', 'No', 'No lo sé'] },
+          { id: 'recibo', label: '¿Necesitan entregar un recibo o comprobante oficial al donante?', type: 'radio', options: ['Sí', 'No', 'No lo sé'] },
+        ],
+      },
+      {
+        title: 'Imagen de la app',
+        sub: 'Cómo se debe ver y llamar.',
+        questions: [
+          { id: 'logo', label: '¿Tienen logotipo o escudo que podamos usar?', type: 'radio', options: ['Sí, y tenemos permiso para usarlo', 'Sí, pero hay que pedir permiso', 'No'] },
+          { id: 'parecido', label: '¿La app debe parecerse a la de España?', type: 'radio', options: ['Sí, que se vea igual', 'Parecida, con un toque latinoamericano', 'No es necesario', 'No lo sé'] },
+          { id: 'nombre_app', label: '¿Tienen alguna idea para el nombre de la app?', type: 'text', help: 'Opcional.' },
+          { id: 'referencias', label: '¿Hay alguna app o página que le guste y quiera tomar como ejemplo?', type: 'textarea', help: 'Puede ser religiosa o de cualquier tema. Opcional.' },
+        ],
+      },
+      {
+        title: 'Tiempos y presupuesto',
+        sub: 'Para preparar una propuesta realista.',
+        questions: [
+          { id: 'fecha', label: '¿Para cuándo les gustaría tener la app?', type: 'text', help: 'Si hay una fecha especial, por ejemplo una fiesta de la Orden, menciónela.' },
+          { id: 'presupuesto', label: '¿Cuentan con un presupuesto aproximado?', type: 'radio', options: ['Menos de USD 10.000', 'Entre USD 10.000 y 25.000', 'Entre USD 25.000 y 50.000', 'Más de USD 50.000', 'Todavía no está definido'] },
+          { id: 'financiamiento', label: '¿Cómo se financiaría el proyecto?', type: 'radio', options: ['Fondos de la provincia u Orden', 'Benefactores o donaciones', 'Una combinación', 'No lo sé'] },
+          { id: 'decide', label: '¿Quién toma la decisión final sobre el proyecto?', type: 'text', help: 'Por ejemplo: el provincial, un consejo, usted mismo.' },
+          { id: 'mantenimiento', label: 'Una vez lista, ¿quién se ocuparía de la app?', type: 'radio', options: ['Alguien de la comunidad', 'Preferimos contratar el mantenimiento', 'No lo sé'] },
+        ],
+      },
+      {
+        title: 'Para terminar',
+        sub: 'Cualquier cosa que quiera agregar.',
+        questions: [
+          { id: 'comentarios', label: '¿Hay algo más que debamos saber?', type: 'textarea', help: 'Dudas, preocupaciones, ideas. Todo nos sirve.' },
+        ],
+      },
+    ];
+
+    const DRAFT_KEY = 'carmelo-cuestionario-v1';
+    let answers = {};
+    let step = -1; // -1 = bienvenida, SECTIONS.length = revisión, +1 = enviado
+    let sending = false;
+
+    try { answers = JSON.parse(localStorage.getItem(DRAFT_KEY) || '{}'); } catch (e) { answers = {}; }
+
+    const app = document.getElementById('app');
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const optValue = o => typeof o === 'string' ? o : o.value;
+
+    function saveDraft() {
+      try { localStorage.setItem(DRAFT_KEY, JSON.stringify(answers)); } catch (e) { /* sin almacenamiento */ }
+    }
+
+    function updateProgress() {
+      const wrap = document.getElementById('progress-wrap');
+      wrap.hidden = step < 0 || step > SECTIONS.length;
+      if (wrap.hidden) return;
+      const total = SECTIONS.length + 1;
+      const current = Math.min(step + 1, total);
+      document.getElementById('progress-step').textContent = step < SECTIONS.length ? `Paso ${current} de ${SECTIONS.length}` : 'Revisión final';
+      const pct = Math.round((step / SECTIONS.length) * 100);
+      document.getElementById('progress-pct').textContent = `${pct} %`;
+      document.getElementById('progress-bar').style.width = pct + '%';
+    }
+
+    function renderQuestion(q) {
+      const value = answers[q.id];
+      const req = q.required ? ' <span class="req" aria-hidden="true">*</span>' : '';
+      const help = q.help ? `<p class="help" id="h-${q.id}">${esc(q.help)}</p>` : '';
+      if (['text', 'email', 'tel', 'textarea'].includes(q.type)) {
+        const attrs = `id="q-${q.id}" name="${q.id}" class="input" ${q.help ? `aria-describedby="h-${q.id}"` : ''} ${q.required ? 'aria-required="true"' : ''}`;
+        const field = q.type === 'textarea'
+          ? `<textarea ${attrs}>${esc(value)}</textarea>`
+          : `<input type="${q.type}" ${attrs} value="${esc(value)}" ${q.type === 'email' ? 'autocomplete="email"' : ''} ${q.type === 'tel' ? 'autocomplete="tel" inputmode="tel"' : ''} ${q.id === 'nombre' ? 'autocomplete="name"' : ''}>`;
+        return `<div class="q" data-q="${q.id}"><label for="q-${q.id}">${esc(q.label)}${req}</label>${help}${field}</div>`;
+      }
+      const multi = q.type === 'checkbox';
+      const selected = multi ? (value?.choices || []) : value?.choice;
+      const choices = q.options.map((o, i) => {
+        const v = optValue(o);
+        const hint = typeof o === 'object' && o.hint ? `<small>${esc(o.hint)}</small>` : '';
+        const checked = multi ? selected.includes(v) : selected === v;
+        return `<label class="choice"><input type="${multi ? 'checkbox' : 'radio'}" name="${q.id}" value="${esc(v)}" ${checked ? 'checked' : ''}><span>${esc(v)}${hint}</span></label>`;
+      }).join('');
+      const other = q.other ? `<input class="input other" name="${q.id}__otro" placeholder="Otro (escríbalo aquí)" value="${esc(value?.other)}" aria-label="${esc(q.label)}: otro">` : '';
+      return `<div class="q" data-q="${q.id}"><fieldset><legend>${esc(q.label)}${req}</legend>${help}<div class="choices ${q.cols ? 'cols' : ''}">${choices}</div>${other}</fieldset></div>`;
+    }
+
+    function collect() {
+      if (step < 0 || step >= SECTIONS.length) return;
+      SECTIONS[step].questions.forEach(q => {
+        if (['text', 'email', 'tel', 'textarea'].includes(q.type)) {
+          answers[q.id] = document.getElementById('q-' + q.id).value.trim();
+        } else if (q.type === 'radio') {
+          const el = app.querySelector(`input[name="${q.id}"]:checked`);
+          answers[q.id] = { choice: el ? el.value : '', other: q.other ? app.querySelector(`[name="${q.id}__otro"]`).value.trim() : '' };
+        } else {
+          const els = [...app.querySelectorAll(`input[name="${q.id}"]:checked`)];
+          answers[q.id] = { choices: els.map(e => e.value), other: q.other ? app.querySelector(`[name="${q.id}__otro"]`).value.trim() : '' };
+        }
+      });
+      saveDraft();
+    }
+
+    function isEmpty(q) {
+      const v = answers[q.id];
+      if (!v) return true;
+      if (typeof v === 'string') return !v;
+      if (q.type === 'checkbox') return !(v.choices.length || v.other);
+      return !(v.choice || v.other);
+    }
+
+    function validate() {
+      const section = SECTIONS[step];
+      app.querySelectorAll('.q').forEach(el => { el.classList.remove('invalid'); el.querySelector('.error')?.remove(); });
+      const errors = [];
+      section.questions.forEach(q => { if (q.required && isEmpty(q)) errors.push([q.id, 'Esta pregunta es necesaria.']); });
+      if (step === 0 && !answers.email && !answers.whatsapp) errors.push(['email', 'Escriba al menos su correo o su WhatsApp.']);
+      if (step === 0 && answers.email && !/^\S+@\S+\.\S+$/.test(answers.email)) errors.push(['email', 'El correo no parece correcto. Revíselo, por favor.']);
+      errors.forEach(([id, msg]) => {
+        const el = app.querySelector(`[data-q="${id}"]`);
+        el.classList.add('invalid');
+        el.insertAdjacentHTML('beforeend', `<div class="error" role="alert">${esc(msg)}</div>`);
+      });
+      if (errors.length) app.querySelector('.invalid').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return !errors.length;
+    }
+
+    function formatAnswer(q) {
+      const v = answers[q.id];
+      if (!v) return '';
+      if (typeof v === 'string') return v;
+      const parts = q.type === 'checkbox' ? [...v.choices] : (v.choice ? [v.choice] : []);
+      if (v.other) parts.push(`Otro: ${v.other}`);
+      return parts.join(', ');
+    }
+
+    function render() {
+      updateProgress();
+      if (step === -1) {
+        const started = Object.keys(answers).length > 0;
+        app.innerHTML = `
+          <div class="intro">
+            <h2>Bienvenido</h2>
+            <p>Este cuestionario nos ayuda a entender qué necesita su comunidad para que la app sea útil desde el primer día.</p>
+            <ul>
+              <li>Toma unos 15 minutos.</li>
+              <li>No hay respuestas correctas o incorrectas. Si no sabe algo, elija “No lo sé”.</li>
+              <li>Sus respuestas se guardan en este dispositivo mientras avanza: puede cerrar la página y seguir después.</li>
+              <li>Solo dos preguntas son obligatorias; están marcadas con <span class="req">*</span>.</li>
+            </ul>
+          </div>
+          <div class="nav"><button class="btn btn-primary" data-go="0">${started ? 'Continuar donde lo dejé' : 'Comenzar'}</button></div>`;
+        return;
+      }
+      if (step === SECTIONS.length) {
+        app.innerHTML = `
+          <h2 class="section-title">Revise sus respuestas</h2>
+          <p class="section-sub">Si quiere cambiar algo, toque “Editar” en esa sección. Cuando esté conforme, envíe el cuestionario.</p>
+          ${SECTIONS.map((s, i) => `
+            <div class="review">
+              <h3>${esc(s.title)} <button data-go="${i}">Editar</button></h3>
+              <dl>${s.questions.map(q => { const a = formatAnswer(q); return `<dt>${esc(q.label)}</dt><dd class="${a ? '' : 'empty'}">${a ? esc(a) : 'Sin respuesta'}</dd>`; }).join('')}</dl>
+            </div>`).join('')}
+          <div id="send-error"></div>
+          <div class="nav">
+            <button class="btn btn-light" data-go="${SECTIONS.length - 1}">Anterior</button>
+            <button class="btn btn-gold" data-send ${sending ? 'disabled' : ''}>${sending ? 'Enviando…' : 'Enviar cuestionario'}</button>
+          </div>`;
+        return;
+      }
+      if (step > SECTIONS.length) {
+        app.innerHTML = `
+          <div class="done">
+            <div class="ok">✓</div>
+            <h2>¡Muchas gracias${answers.nombre ? ', ' + esc(answers.nombre.split(' ')[0]) : ''}!</h2>
+            <p>Recibimos sus respuestas. Lo vamos a contactar ${answers.contacto?.choice ? 'por ' + esc(answers.contacto.choice.toLowerCase()) : 'pronto'} para conversar sobre la propuesta.</p>
+            <p style="margin-top:20px"><a href="index.html">Ver la demo de la app</a></p>
+          </div>`;
+        return;
+      }
+      const s = SECTIONS[step];
+      app.innerHTML = `
+        <h2 class="section-title">${esc(s.title)}</h2>
+        <p class="section-sub">${esc(s.sub)}</p>
+        <form id="section-form" novalidate>
+          ${s.questions.map(renderQuestion).join('')}
+          <div class="nav">
+            <button type="button" class="btn btn-light" data-go="${step - 1}">Anterior</button>
+            <button type="submit" class="btn btn-primary">${step === SECTIONS.length - 1 ? 'Revisar respuestas' : 'Siguiente'}</button>
+          </div>
+          <p class="saved">Sus respuestas se guardan automáticamente.</p>
+        </form>`;
+    }
+
+    function go(to) {
+      collect();
+      step = to;
+      render();
+      window.scrollTo({ top: 0 });
+    }
+
+    function buildPayload() {
+      const data = {
+        _subject: `Cuestionario app Carmelo · ${answers.nombre || 'sin nombre'}`,
+        _template: 'table',
+        _captcha: 'false',
+      };
+      if (answers.email) data._replyto = answers.email;
+      SECTIONS.forEach((s, si) => s.questions.forEach((q, qi) => {
+        data[`${si + 1}.${qi + 1} ${q.label}`] = formatAnswer(q) || '—';
+      }));
+      return data;
+    }
+
+    function plainText() {
+      return SECTIONS.map(s => `== ${s.title} ==\n` + s.questions.map(q => `${q.label}\n${formatAnswer(q) || '—'}`).join('\n\n')).join('\n\n');
+    }
+
+    async function send() {
+      if (sending) return;
+      sending = true;
+      render();
+      try {
+        const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(FORM_EMAIL)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(buildPayload()),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || String(json.success) === 'false') throw new Error(json.message || 'Error al enviar');
+        try { localStorage.removeItem(DRAFT_KEY); } catch (e) { /* nada */ }
+        sending = false;
+        step = SECTIONS.length + 1;
+        render();
+        window.scrollTo({ top: 0 });
+      } catch (e) {
+        sending = false;
+        render();
+        const blob = new Blob([plainText()], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        document.getElementById('send-error').innerHTML = `
+          <div class="fallback" role="alert">
+            No pudimos enviar el cuestionario. Revise su conexión e inténtelo de nuevo.<br>
+            Si el problema sigue, <a href="${url}" download="cuestionario-app-carmelo.txt">descargue sus respuestas</a> y envíelas por correo a <a href="mailto:${esc(FORM_EMAIL)}">${esc(FORM_EMAIL)}</a>.
+          </div>`;
+      }
+    }
+
+    app.addEventListener('click', e => {
+      const goBtn = e.target.closest('[data-go]');
+      if (goBtn) return go(Number(goBtn.dataset.go));
+      if (e.target.closest('[data-send]')) send();
+    });
+
+    app.addEventListener('submit', e => {
+      e.preventDefault();
+      collect();
+      if (!validate()) return;
+      go(step + 1);
+    });
+
+    // Guarda mientras escribe, por si cierra la página.
+    app.addEventListener('input', () => { if (step >= 0 && step < SECTIONS.length) collect(); });
+    app.addEventListener('change', () => { if (step >= 0 && step < SECTIONS.length) collect(); });
+
+    render();
+  </script>
+</body>
+</html>

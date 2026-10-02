@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cut">
+  <title>Carmelo Latinoamérica · Demo</title>
+  <meta name="description" content="Prototipo interactivo de una app para la familia carmelita en Latinoamérica: registro, oración diaria, comunidades, eventos, donativos y panel de administración.">
+  <meta name="theme-color" content="#4a2f22">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ribbon" role="note">Prototipo de demostración · No oficial · Datos de ejemplo</div>
+
+  <header class="topbar">
+    <div class="brand">
+      <img src="assets/icon.svg" alt="" width="32" height="32">
+      <div>
+        <strong>Carmelo Latinoamérica</strong>
+        <span>Demo interactiva</span>
+      </div>
+    </div>
+    <nav class="views" aria-label="Vistas de la demo">
+      <button class="view-btn active" data-view="pitch">Presentación</button>
+      <button class="view-btn" data-view="admin">Panel<span class="long"> de administración</span></button>
+      <button class="view-btn only-mobile" data-view="app">Ver app</button>
+    </nav>
+  </header>
+
+  <main class="stage">
+    <!-- Presentación -->
+    <section class="side" id="side-pitch" aria-label="Presentación">
+      <p class="eyebrow">Carmelitas Descalzos · 19 países de habla hispana</p>
+      <h1>Una app para acompañar la oración de toda la familia carmelita en Latinoamérica</h1>
+      <p class="lead">Probá la app en el teléfono y después abrí el panel de administración: lo que publica un responsable aparece en la app al instante.</p>
+
+      <ol class="try">
+        <li><span>1</span><div><strong>Creá tu cuenta</strong> o entrá con <code>demo@carmelo.app</code> y la contraseña <code>demo123</code>.</div></li>
+        <li><span>2</span><div><strong>Elegí tu país y tu comunidad.</strong> Moneda, horario y contenido se adaptan solos.</div></li>
+        <li><span>3</span><div><strong>Abrí el panel</strong> y publicá un evento o un aviso: llega al teléfono en el momento.</div></li>
+      </ol>
+
+      <div class="features">
+        <article><h3>19 países, una sola app</h3><p>Español neutro, moneda y zona horaria de cada país, de México a Argentina.</p></article>
+        <article><h3>Registro simple y seguro</h3><p>Teléfono con código, Google o Apple. Consentimiento expreso para datos sensibles.</p></article>
+        <article><h3>Oración diaria</h3><p>Evangelio orado, santoral carmelita, audios y modo lectura nocturna.</p></article>
+        <article><h3>Comunidades cercanas</h3><p>Conventos, parroquias, monasterios y grupos OCDS con horarios.</p></article>
+        <article><h3>Eventos e inscripciones</h3><p>Retiros, encuentros y celebraciones con cupos y recordatorios.</p></article>
+        <article><h3>Donativos locales</h3><p>Mercado Pago o pasarela regional según el país, con recibo inmediato.</p></article>
+        <article><h3>Panel por provincia</h3><p>Cada nivel de la Orden gestiona solo lo suyo, con permisos en la base de datos.</p></article>
+        <article><h3>Lista para crecer</h3><p>Flutter, Supabase y Next.js: iOS, Android y web desde una sola base.</p></article>
+      </div>
+
+      <div class="cta" id="cta" hidden>
+        <div>
+          <h2>¿Lo hacemos realidad?</h2>
+          <p id="cta-name"></p>
+        </div>
+        <div class="cta-actions" id="cta-actions"></div>
+      </div>
+
+      <p class="fineprint">Prototipo de demostración, no oficial. No está afiliado a la Orden de Carmelitas Descalzos. Comunidades, cifras y personas son datos de ejemplo. <button class="link" data-action="reset-demo">Reiniciar demo</button></p>
+    </section>
+
+    <!-- Panel de administración -->
+    <section class="side" id="side-admin" aria-label="Panel de administración" hidden></section>
+
+    <!-- Teléfono -->
+    <div class="phone-wrap" id="phone-wrap">
+      <div class="phone">
+        <div class="phone-notch" aria-hidden="true"></div>
+        <div class="screen" id="screen" aria-live="polite"></div>
+        <div class="push" id="push" role="status" hidden></div>
+        <div class="toast" id="toast" role="status" hidden></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
